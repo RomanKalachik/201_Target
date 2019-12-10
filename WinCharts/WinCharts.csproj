@@ -33,19 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Charts.v19.2.Core, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.Data.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.Printing.v19.2.Core, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.Utils.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.Utils.v19.2.UI, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.Xpf.Charts.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraBars.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraCharts.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraCharts.v19.2.UI, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraCharts.v19.2.Wizard, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraEditors.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraLayout.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
-    <Reference Include="DevExpress.XtraPrinting.v19.2, Version=19.2.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Data.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Utils.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Utils.v20.1.UI, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Xpf.Charts.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraBars.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraCharts.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.UI, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraCharts.v20.1.Wizard, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraEditors.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraLayout.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.XtraPrinting.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

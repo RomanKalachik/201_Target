@@ -89,6 +89,7 @@ namespace WinCharts
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
+            //diagram.ActualAxisX.NumericScaleOptions = new DevExpress.Xpf.Charts.AutomaticNumericScaleOptions() { AggregateFunction = DevExpress.Xpf.Charts.AggregateFunction.Average};
             var series = new DevExpress.Xpf.Charts.LineSeries2D();
             diagram.Series.Add(series);
 
