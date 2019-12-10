@@ -1,7 +1,6 @@
 ﻿using DataGenerator;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -26,13 +25,37 @@ namespace WinCharts
             log.ScrollToCaret();
         }
 
-        private void bindDataClick(object sender, EventArgs e)
+        private void bindDataWin(object sender, EventArgs e)
         {
             series1.DataSource = chartSource;
+            series1.DataSourceSorted = true;
             series1.ValueDataMembers.AddRange(new string[] { "Value" });
             series1.ArgumentDataMember = "Argument";
+            series1.NumericSummaryOptions.SummaryFunction = "AVERAGE([Value])";
+            series1.NumericSummaryOptions.MeasureUnit = 1000;
             LogMemConsumption();
         }
+
+
+        private void bindDataWpf(object sender, EventArgs e)
+        {
+            window = new WPFChart.MainWindow();
+            DevExpress.Xpf.Charts.XYDiagram2D diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
+            window.Chart.Diagram = diagram;
+            diagram.EnableAxisXNavigation = true;
+            diagram.EnableAxisYNavigation = true;
+            var series = new DevExpress.Xpf.Charts.LineSeries2D();
+            diagram.Series.Add(series);
+
+            series.DataSource = chartSource;
+            series.ArgumentDataMember = "Argument";
+            series.ValueDataMember = "Value";
+
+            window.Show();
+
+            LogMemConsumption();
+        }
+
         static String BytesToString(long byteCount)
         {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
@@ -43,6 +66,7 @@ namespace WinCharts
             double num = Math.Round(bytes / Math.Pow(1024, place), 1);
             return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
+
         private void clearDataClick(object sender, EventArgs e)
         {
             chartSource = null;
@@ -55,16 +79,24 @@ namespace WinCharts
             series1 = chartControl1.Chart.Series[0];
         }
 
+        private void generate_1K(object sender, EventArgs e)
+        {
+            chartSource = DataGenerator.Generator.Generate(10000);
+            LogMemConsumption();
+        }
+
         private void generateDataClick(object sender, EventArgs e)
         {
             chartSource = DataGenerator.Generator.Generate(1000000);
             LogMemConsumption();
         }
+
         void LogMemConsumption()
         {
             var available = GC.GetTotalMemory(true);
             if (prevAvailable > 0)
-                AddMessageToLog(string.Format("available memory {0}" + Environment.NewLine, BytesToString(prevAvailable - available)));
+                AddMessageToLog(string.Format("available memory {0}" + Environment.NewLine,
+                                              BytesToString(prevAvailable - available)));
             prevAvailable = available;
         }
 
@@ -74,41 +106,11 @@ namespace WinCharts
             LogMemConsumption();
         }
 
-        private void generate_1K(object sender, EventArgs e)
-        {
-            chartSource = DataGenerator.Generator.Generate(10000);
-            LogMemConsumption();
-
-        }
-
-
-        private void bindDataWpf(object sender, EventArgs e)
-        {
-            window = new WPFChart.MainWindow();
-            DevExpress.Xpf.Charts.XYDiagram2D diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
-            window.Chart.Diagram = diagram;
-            diagram.EnableAxisXNavigation = true;
-            diagram.EnableAxisYNavigation = true;
-            //diagram.ActualAxisX.NumericScaleOptions = new DevExpress.Xpf.Charts.AutomaticNumericScaleOptions() { AggregateFunction = DevExpress.Xpf.Charts.AggregateFunction.Average};
-            var series = new DevExpress.Xpf.Charts.LineSeries2D();
-            diagram.Series.Add(series);
-
-            series.DataSource = chartSource;
-            series.ArgumentDataMember = "Argument";
-            series.ValueDataMember = "Value";
-
-            window.Show();
-
-            LogMemConsumption();
-
-        }
-
         private void UnBindDataWpf(object sender, EventArgs e)
         {
             window?.Close();
             window = null;
             LogMemConsumption();
-
         }
     }
 }

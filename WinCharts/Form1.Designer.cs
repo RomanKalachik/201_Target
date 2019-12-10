@@ -133,7 +133,7 @@
             this.button3.TabIndex = 2;
             this.button3.Text = "BindData";
             this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.bindDataClick);
+            this.button3.Click += new System.EventHandler(this.bindDataWin);
             // 
             // button4
             // 
