@@ -29,13 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            DevExpress.XtraCharts.XYDiagram xyDiagram1 = new DevExpress.XtraCharts.XYDiagram();
-            DevExpress.XtraCharts.Series series1 = new DevExpress.XtraCharts.Series();
-            DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
+            DevExpress.XtraCharts.XYDiagram xyDiagram2 = new DevExpress.XtraCharts.XYDiagram();
+            DevExpress.XtraCharts.Series series2 = new DevExpress.XtraCharts.Series();
+            DevExpress.XtraCharts.LineSeriesView lineSeriesView2 = new DevExpress.XtraCharts.LineSeriesView();
             this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.button1 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -48,10 +49,11 @@
             this.textBox1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.flowLayoutPanel1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.chartControl1item = new DevExpress.XtraLayout.LayoutControlItem();
+            this.button9 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(series2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Form1layoutControl1ConvertedLayout)).BeginInit();
             this.Form1layoutControl1ConvertedLayout.SuspendLayout();
@@ -63,27 +65,29 @@
             // 
             // chartControl1
             // 
-            xyDiagram1.AxisX.VisibleInPanesSerializable = "-1";
-            xyDiagram1.AxisY.VisibleInPanesSerializable = "-1";
-            xyDiagram1.EnableAxisXScrolling = true;
-            xyDiagram1.EnableAxisXZooming = true;
-            xyDiagram1.EnableAxisYScrolling = true;
-            xyDiagram1.EnableAxisYZooming = true;
-            this.chartControl1.Diagram = xyDiagram1;
+            xyDiagram2.AxisX.VisibleInPanesSerializable = "-1";
+            xyDiagram2.AxisY.VisibleInPanesSerializable = "-1";
+            xyDiagram2.EnableAxisXScrolling = true;
+            xyDiagram2.EnableAxisXZooming = true;
+            xyDiagram2.EnableAxisYScrolling = true;
+            xyDiagram2.EnableAxisYZooming = true;
+            this.chartControl1.Diagram = xyDiagram2;
             this.chartControl1.Legend.Name = "Default Legend";
             this.chartControl1.Location = new System.Drawing.Point(210, 12);
             this.chartControl1.Name = "chartControl1";
-            series1.Name = "Series 1";
-            series1.View = lineSeriesView1;
+            series2.Name = "Series 1";
+            series2.View = lineSeriesView2;
             this.chartControl1.SeriesSerializable = new DevExpress.XtraCharts.Series[] {
-        series1};
+        series2};
             this.chartControl1.Size = new System.Drawing.Size(578, 325);
             this.chartControl1.TabIndex = 0;
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.button9);
             this.flowLayoutPanel1.Controls.Add(this.button5);
+            this.flowLayoutPanel1.Controls.Add(this.button8);
             this.flowLayoutPanel1.Controls.Add(this.button2);
             this.flowLayoutPanel1.Controls.Add(this.button3);
             this.flowLayoutPanel1.Controls.Add(this.button4);
@@ -106,7 +110,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(95, 3);
+            this.button5.Location = new System.Drawing.Point(3, 32);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(86, 23);
             this.button5.TabIndex = 4;
@@ -114,9 +118,19 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.generate_1K);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(3, 61);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(115, 23);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "Generate_10Points";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.generate10Points);
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(3, 32);
+            this.button2.Location = new System.Drawing.Point(3, 90);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 1;
@@ -127,7 +141,7 @@
             // button3
             // 
             this.button3.BackColor = System.Drawing.Color.Coral;
-            this.button3.Location = new System.Drawing.Point(84, 32);
+            this.button3.Location = new System.Drawing.Point(84, 90);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 2;
@@ -138,7 +152,7 @@
             // button4
             // 
             this.button4.BackColor = System.Drawing.Color.Coral;
-            this.button4.Location = new System.Drawing.Point(3, 61);
+            this.button4.Location = new System.Drawing.Point(3, 119);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 3;
@@ -149,7 +163,7 @@
             // button6
             // 
             this.button6.BackColor = System.Drawing.Color.Chartreuse;
-            this.button6.Location = new System.Drawing.Point(84, 61);
+            this.button6.Location = new System.Drawing.Point(84, 119);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(97, 23);
             this.button6.TabIndex = 5;
@@ -160,7 +174,7 @@
             // button7
             // 
             this.button7.BackColor = System.Drawing.Color.Chartreuse;
-            this.button7.Location = new System.Drawing.Point(3, 90);
+            this.button7.Location = new System.Drawing.Point(3, 148);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(103, 23);
             this.button7.TabIndex = 6;
@@ -229,6 +243,17 @@
             this.chartControl1item.TextSize = new System.Drawing.Size(0, 0);
             this.chartControl1item.TextVisible = false;
             // 
+            // button9
+            // 
+            this.button9.BackColor = System.Drawing.Color.Yellow;
+            this.button9.Location = new System.Drawing.Point(95, 3);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(86, 23);
+            this.button9.TabIndex = 8;
+            this.button9.Text = "Generate_20M";
+            this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.generate20MPoints);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -237,9 +262,9 @@
             this.Controls.Add(this.Form1layoutControl1ConvertedLayout);
             this.Name = "Form1";
             this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(xyDiagram2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(lineSeriesView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(series2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Form1layoutControl1ConvertedLayout)).EndInit();
@@ -271,6 +296,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }
 
