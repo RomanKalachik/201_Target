@@ -39,9 +39,10 @@ namespace WinCharts {
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
+            diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 1000000, AxisYMaxZoomPercent = 1000000 };
             var series = new DevExpress.Xpf.Charts.LineSeries2D();
             series.DataSourceSorted = true;
-            window.Chart.CrosshairEnabled = false;
+            //window.Chart.CrosshairEnabled = false;
             diagram.Series.Add(series);
 
             series.DataSource = chartSource;
