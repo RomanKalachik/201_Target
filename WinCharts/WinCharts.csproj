@@ -34,6 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Charts.v20.1.Core, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
+    <Reference Include="DevExpress.Data.Desktop.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\work\201\Core\Bin\Framework4\DevExpress.Data.Desktop.v20.1.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
     <Reference Include="DevExpress.Printing.v20.1.Core, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />
     <Reference Include="DevExpress.Utils.v20.1, Version=20.1.0.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4" />

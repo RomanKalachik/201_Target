@@ -19,8 +19,8 @@ namespace DataGenerator
             for (long i = 0; i < count; i++)
                 
                 result.Add(new DataItem() { Argument = i, Value =       Math.Sin(i) +
-                                                                   10 * Math.Sin(i / 100.0) +
-                                                                   100 *Math.Sin(i / 1000.0) +
+                                                                    Math.Sin(i / 100.0) +
+                                                                   30* Math.Sin(i / 1000.0) +
                                                                    1000*Math.Sin(i/100000.0)});
             return result;
         } 
