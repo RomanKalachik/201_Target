@@ -74,8 +74,8 @@ namespace WinCharts {
             series1 = chartControl1.Chart.Series[0];
         }
 
-        private void generate_1K(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(10000);
+        private void generate_20K(object sender, EventArgs e) {
+            chartSource = DataGenerator.Generator.Generate(20000);
             LogMemConsumption();
         }
 
