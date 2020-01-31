@@ -113,5 +113,10 @@ namespace WinCharts {
             chartSource = DataGenerator.Generator.Generate(20 * 1000 * 1000);
             LogMemConsumption();
         }
+
+        private void button10_Click(object sender, EventArgs e) {
+            chartSource = DataGenerator.Generator.Generate(120 * 1000 * 1000);
+            LogMemConsumption();
+        }
     }
 }
