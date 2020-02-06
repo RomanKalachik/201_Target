@@ -1,12 +1,14 @@
 ﻿using DataGenerator;
+using DevExpress.Xpf.Charts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace WinCharts {
     public partial class Form1 : Form {
-        IList<DataItem> chartSource;
+        IList<object> chartSource;
         long prevAvailable = 0;
         WPFChart.MainWindow window;
 
@@ -40,8 +42,7 @@ namespace WinCharts {
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
             diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 1000000, AxisYMaxZoomPercent = 1000000 };
-            var series = new DevExpress.Xpf.Charts.LineSeries2D();
-            series.DataSourceSorted = true;
+            var series = (XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.1"));
             window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
 
@@ -75,12 +76,12 @@ namespace WinCharts {
         }
 
         private void generate_20K(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(20000);
+            GenerateCore(20000);
             LogMemConsumption();
         }
 
         private void generateDataClick(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(1000000);
+            GenerateCore(1000000);
             LogMemConsumption();
         }
 
@@ -104,19 +105,35 @@ namespace WinCharts {
         }
 
         private void generate10Points(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(10);
+            GenerateCore(10);
             LogMemConsumption();
 
         }
 
         private void generate20MPoints(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(20 * 1000 * 1000);
+            GenerateCore(20 * 1000 * 1000);
             LogMemConsumption();
         }
 
         private void button10_Click(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(120 * 1000 * 1000);
+
+            GenerateCore(120 * 1000 * 1000);
             LogMemConsumption();
+        }
+
+        void GenerateCore(long count) {
+            Type t = Type.GetType("System." + (string)dataTypeCombo.SelectedItem);
+            Type genericClass = typeof(DataGenerator.Generator<>);
+            Type constructedClass = genericClass.MakeGenericType(t);
+            chartSource = (IList<object>)constructedClass.InvokeMember("Generate", BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null, new object[] { count });
+        }
+
+        private void Form1_Load_1(object sender, EventArgs e) {
+            dataTypeCombo.Items.AddRange(new object[] { "Double", "Single", "Decimal" });
+            dataTypeCombo.SelectedIndex = 0;
+            seriesTypeCombo.Items.AddRange(new object[] {"LineSeries2D", "LineFullStackedSeries2D", "LineScatterSeries2D", "LineStackedSeries2D", "LineStepSeries2D", "SplineSeries2D" });
+            seriesTypeCombo.SelectedIndex = 0;
+
         }
     }
 }

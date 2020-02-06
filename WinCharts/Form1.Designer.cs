@@ -34,10 +34,11 @@
             DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
             this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.button10 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
@@ -50,7 +51,8 @@
             this.textBox1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.flowLayoutPanel1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.chartControl1item = new DevExpress.XtraLayout.LayoutControlItem();
-            this.button10 = new System.Windows.Forms.Button();
+            this.dataTypeCombo = new System.Windows.Forms.ComboBox();
+            this.seriesTypeCombo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
@@ -95,10 +97,32 @@
             this.flowLayoutPanel1.Controls.Add(this.button4);
             this.flowLayoutPanel1.Controls.Add(this.button6);
             this.flowLayoutPanel1.Controls.Add(this.button7);
+            this.flowLayoutPanel1.Controls.Add(this.dataTypeCombo);
+            this.flowLayoutPanel1.Controls.Add(this.seriesTypeCombo);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(194, 325);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(3, 3);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(103, 23);
+            this.button8.TabIndex = 7;
+            this.button8.Text = "10";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.generate10Points);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(3, 32);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(103, 23);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "20K";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.generate_20K);
             // 
             // button1
             // 
@@ -121,25 +145,17 @@
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.generate20MPoints);
             // 
-            // button5
+            // button10
             // 
-            this.button5.Location = new System.Drawing.Point(3, 32);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(103, 23);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "20K";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.generate_20K);
-            // 
-            // button8
-            // 
-            this.button8.Location = new System.Drawing.Point(3, 3);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(103, 23);
-            this.button8.TabIndex = 7;
-            this.button8.Text = "10";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.generate10Points);
+            this.button10.BackColor = System.Drawing.Color.Yellow;
+            this.flowLayoutPanel1.SetFlowBreak(this.button10, true);
+            this.button10.Location = new System.Drawing.Point(3, 119);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(136, 23);
+            this.button10.TabIndex = 9;
+            this.button10.Text = "OMG it\'s huge 120M";
+            this.button10.UseVisualStyleBackColor = false;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // button2
             // 
@@ -256,17 +272,21 @@
             this.chartControl1item.TextSize = new System.Drawing.Size(0, 0);
             this.chartControl1item.TextVisible = false;
             // 
-            // button10
+            // dataTypeCombo
             // 
-            this.button10.BackColor = System.Drawing.Color.Yellow;
-            this.flowLayoutPanel1.SetFlowBreak(this.button10, true);
-            this.button10.Location = new System.Drawing.Point(3, 119);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(136, 23);
-            this.button10.TabIndex = 9;
-            this.button10.Text = "OMG it\'s huge 120M";
-            this.button10.UseVisualStyleBackColor = false;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.dataTypeCombo.FormattingEnabled = true;
+            this.dataTypeCombo.Location = new System.Drawing.Point(3, 235);
+            this.dataTypeCombo.Name = "dataTypeCombo";
+            this.dataTypeCombo.Size = new System.Drawing.Size(178, 21);
+            this.dataTypeCombo.TabIndex = 10;
+            // 
+            // seriesTypeCombo
+            // 
+            this.seriesTypeCombo.FormattingEnabled = true;
+            this.seriesTypeCombo.Location = new System.Drawing.Point(3, 262);
+            this.seriesTypeCombo.Name = "seriesTypeCombo";
+            this.seriesTypeCombo.Size = new System.Drawing.Size(178, 21);
+            this.seriesTypeCombo.TabIndex = 11;
             // 
             // Form1
             // 
@@ -276,6 +296,7 @@
             this.Controls.Add(this.Form1layoutControl1ConvertedLayout);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load_1);
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(lineSeriesView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).EndInit();
@@ -313,6 +334,8 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.ComboBox dataTypeCombo;
+        private System.Windows.Forms.ComboBox seriesTypeCombo;
     }
 }
 
