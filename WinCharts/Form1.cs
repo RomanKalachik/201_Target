@@ -137,8 +137,8 @@ namespace WinCharts {
                                                "AreaStepSeries2D",
                                                "AreaStepStackedSeries2D",
                                                "AreaStackedSeries2D",
-                                               "BarSideBySideSeries2D", 
-                                               "BarSideBySideStackedSeries2D",
+                                               //"BarSideBySideSeries2D", 
+                                               //"BarSideBySideStackedSeries2D",
                                                "BarStackedSeries2D",
             });
             seriesTypeCombo.SelectedIndex = 0;
