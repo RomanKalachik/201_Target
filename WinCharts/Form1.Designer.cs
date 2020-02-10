@@ -117,7 +117,7 @@
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(112, 23);
             this.button9.TabIndex = 8;
-            this.button9.Text = "SEXY 20M";
+            this.button9.Text = "20M";
             this.button9.UseVisualStyleBackColor = false;
             this.button9.Click += new System.EventHandler(this.generate20MPoints);
             // 
@@ -264,7 +264,7 @@
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(136, 23);
             this.button10.TabIndex = 9;
-            this.button10.Text = "OMG it\'s huge 120M";
+            this.button10.Text = "120M";
             this.button10.UseVisualStyleBackColor = false;
             this.button10.Click += new System.EventHandler(this.button10_Click);
             // 

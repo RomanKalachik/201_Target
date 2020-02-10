@@ -23,7 +23,7 @@ namespace WinCharts {
 
         private void bindDataWin(object sender, EventArgs e) {
             series1.DataSource = chartSource;
-            series1.DataSourceSorted = true;
+            //series1.DataSourceSorted = true;
             series1.ValueDataMembers.AddRange(new string[] { "Value" });
             series1.ArgumentDataMember = "Argument";
             //series1.NumericSummaryOptions.SummaryFunction = "AVERAGE([Value])";
@@ -39,10 +39,10 @@ namespace WinCharts {
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
-            diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 1000000, AxisYMaxZoomPercent = 1000000 };
+            diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
             var series = new DevExpress.Xpf.Charts.LineSeries2D();
-            series.DataSourceSorted = true;
-            window.Chart.CrosshairEnabled = false;
+            //series.DataSourceSorted = true;
+            window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
 
             series.DataSource = chartSource;
