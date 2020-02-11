@@ -1,4 +1,5 @@
 ﻿using DataGenerator;
+using DevExpress.Xpf.Charts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,8 @@ namespace WinCharts {
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
             diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
-            var series = new DevExpress.Xpf.Charts.LineSeries2D();
+            var series = (XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.1"));
+
             //series.DataSourceSorted = true;
             window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
@@ -70,6 +72,20 @@ namespace WinCharts {
         }
 
         private void Form1_Load(object sender, EventArgs e) {
+            seriesTypeCombo.Items.AddRange(new object[] {"LineSeries2D",
+                                               "SplineSeries2D",
+                                               "SplineAreaSeries2D",
+                                               "SplineAreaStackedSeries2D",
+                                               "AreaSeries2D",
+                                               "AreaStepSeries2D",
+                                               "AreaStepStackedSeries2D",
+                                               "AreaStackedSeries2D",
+                                               //"BarSideBySideSeries2D",
+                                               //"BarSideBySideStackedSeries2D",
+                                               "BarStackedSeries2D",
+            });
+            seriesTypeCombo.SelectedIndex = 0;
+
             LogMemConsumption();
             series1 = chartControl1.Chart.Series[0];
         }
