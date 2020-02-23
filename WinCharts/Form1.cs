@@ -2,14 +2,16 @@
 using DevExpress.Xpf.Charts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Forms;
+using WPFChart;
 
 namespace WinCharts {
     public partial class Form1 : Form {
-        IList<DataItem> chartSource;
+        ObservableCollection<DataItem> chartSource;
         long prevAvailable = 0;
-        WPFChart.MainWindow window;
+        MainWindow window;
 
         public Form1() {
             InitializeComponent();
@@ -22,32 +24,28 @@ namespace WinCharts {
             log.ScrollToCaret();
         }
 
-        private void bindDataWin(object sender, EventArgs e) {
+        void bindDataWin(object sender, EventArgs e) {
             series1.DataSource = chartSource;
-            //series1.DataSourceSorted = true;
             series1.ValueDataMembers.AddRange(new string[] { "Value" });
             series1.ArgumentDataMember = "Argument";
-            //series1.NumericSummaryOptions.SummaryFunction = "AVERAGE([Value])";
-            //series1.NumericSummaryOptions.MeasureUnit = 1000;
-            //series1.NumericSummaryOptions.UseAxisMeasureUnit = false;
             LogMemConsumption();
         }
 
 
-        private void bindDataWpf(object sender, EventArgs e) {
-            window = new WPFChart.MainWindow();
-            DevExpress.Xpf.Charts.XYDiagram2D diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
+        void bindDataWpf(object sender, EventArgs e) {
+            window = new MainWindow();
+            XYDiagram2D diagram = new XYDiagram2D();
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
-            diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
-            var series = (XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.1"));
+            diagram.NavigationOptions = new NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
+            XYSeries2D series = (XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.1"));
 
-            //series.DataSourceSorted = true;
             window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
 
             series.DataSource = chartSource;
+            //window.Chart.DataSource = chartSource
             series.ArgumentDataMember = "Argument";
             series.ValueDataMember = "Value";
 
@@ -66,12 +64,12 @@ namespace WinCharts {
             return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
 
-        private void clearDataClick(object sender, EventArgs e) {
+        void clearDataClick(object sender, EventArgs e) {
             chartSource = null;
             LogMemConsumption();
         }
 
-        private void Form1_Load(object sender, EventArgs e) {
+        void Form1_Load(object sender, EventArgs e) {
             seriesTypeCombo.Items.AddRange(new object[] {"LineSeries2D",
                                                "SplineSeries2D",
                                                "SplineAreaSeries2D",
@@ -80,8 +78,6 @@ namespace WinCharts {
                                                "AreaStepSeries2D",
                                                "AreaStepStackedSeries2D",
                                                "AreaStackedSeries2D",
-                                               //"BarSideBySideSeries2D",
-                                               //"BarSideBySideStackedSeries2D",
                                                "BarStackedSeries2D",
             });
             seriesTypeCombo.SelectedIndex = 0;
@@ -90,49 +86,62 @@ namespace WinCharts {
             series1 = chartControl1.Chart.Series[0];
         }
 
-        private void generate_20K(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(20000);
+        void generate_20K(object sender, EventArgs e) {
+            chartSource = Generator.Generate(20000);
             LogMemConsumption();
         }
 
-        private void generateDataClick(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(1000000);
+        void generateDataClick(object sender, EventArgs e) {
+            chartSource = Generator.Generate(1000000);
             LogMemConsumption();
         }
 
         void LogMemConsumption() {
-            var available = GC.GetTotalMemory(true);
+            long available = GC.GetTotalMemory(true);
             if (prevAvailable > 0)
                 AddMessageToLog(string.Format("available memory {0}" + Environment.NewLine,
                                               BytesToString(prevAvailable - available)));
             prevAvailable = available;
         }
 
-        private void unBindDataClick(object sender, EventArgs e) {
+        void unBindDataClick(object sender, EventArgs e) {
             series1.DataSource = null;
             LogMemConsumption();
         }
 
-        private void UnBindDataWpf(object sender, EventArgs e) {
+        void UnBindDataWpf(object sender, EventArgs e) {
             window?.Close();
             window = null;
             LogMemConsumption();
         }
 
-        private void generate10Points(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(10);
+        void generate10Points(object sender, EventArgs e) {
+            chartSource = Generator.Generate(10);
             LogMemConsumption();
 
         }
 
-        private void generate20MPoints(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(20 * 1000 * 1000);
+        void generate20MPoints(object sender, EventArgs e) {
+            chartSource = Generator.Generate(20 * 1000 * 1000);
             LogMemConsumption();
         }
 
-        private void button10_Click(object sender, EventArgs e) {
-            chartSource = DataGenerator.Generator.Generate(120 * 1000 * 1000);
+        void button10_Click(object sender, EventArgs e) {
+            chartSource = Generator.Generate(120 * 1000 * 1000);
             LogMemConsumption();
+        }
+        Timer timer;
+
+        void startRealtimeUpdates(object sender, EventArgs e) {
+            timer = new Timer();
+            timer.Interval = 300;
+            timer.Tick += (s, ee) =>
+            {
+                for (int i = 0; i < 1000; i++) {
+                    Generator.UpdateSource(chartSource);
+                }
+            };
+            timer.Start();
         }
     }
 }

@@ -44,6 +44,7 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.seriesTypeCombo = new System.Windows.Forms.ComboBox();
             this.log = new System.Windows.Forms.TextBox();
             this.layoutConverter1 = new DevExpress.XtraLayout.Converter.LayoutConverter(this.components);
             this.Form1layoutControl1ConvertedLayout = new DevExpress.XtraLayout.LayoutControl();
@@ -51,7 +52,7 @@
             this.textBox1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.flowLayoutPanel1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.chartControl1item = new DevExpress.XtraLayout.LayoutControlItem();
-            this.seriesTypeCombo = new System.Windows.Forms.ComboBox();
+            this.realtimeUpdatesButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
@@ -95,6 +96,7 @@
             this.flowLayoutPanel1.Controls.Add(this.button3);
             this.flowLayoutPanel1.Controls.Add(this.button4);
             this.flowLayoutPanel1.Controls.Add(this.button6);
+            this.flowLayoutPanel1.Controls.Add(this.realtimeUpdatesButton);
             this.flowLayoutPanel1.Controls.Add(this.button7);
             this.flowLayoutPanel1.Controls.Add(this.seriesTypeCombo);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 12);
@@ -201,13 +203,21 @@
             // button7
             // 
             this.button7.BackColor = System.Drawing.Color.Chartreuse;
-            this.button7.Location = new System.Drawing.Point(3, 206);
+            this.button7.Location = new System.Drawing.Point(3, 235);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(103, 23);
             this.button7.TabIndex = 6;
             this.button7.Text = "UnBindDataWPF";
             this.button7.UseVisualStyleBackColor = false;
             this.button7.Click += new System.EventHandler(this.UnBindDataWpf);
+            // 
+            // seriesTypeCombo
+            // 
+            this.seriesTypeCombo.FormattingEnabled = true;
+            this.seriesTypeCombo.Location = new System.Drawing.Point(3, 264);
+            this.seriesTypeCombo.Name = "seriesTypeCombo";
+            this.seriesTypeCombo.Size = new System.Drawing.Size(178, 21);
+            this.seriesTypeCombo.TabIndex = 11;
             // 
             // log
             // 
@@ -270,14 +280,16 @@
             this.chartControl1item.TextSize = new System.Drawing.Size(0, 0);
             this.chartControl1item.TextVisible = false;
             // 
-           
-            // seriesTypeCombo
+            // button11
             // 
-            this.seriesTypeCombo.FormattingEnabled = true;
-            this.seriesTypeCombo.Location = new System.Drawing.Point(3, 262);
-            this.seriesTypeCombo.Name = "seriesTypeCombo";
-            this.seriesTypeCombo.Size = new System.Drawing.Size(178, 21);
-            this.seriesTypeCombo.TabIndex = 11;
+            this.realtimeUpdatesButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.realtimeUpdatesButton.Location = new System.Drawing.Point(3, 206);
+            this.realtimeUpdatesButton.Name = "button11";
+            this.realtimeUpdatesButton.Size = new System.Drawing.Size(144, 23);
+            this.realtimeUpdatesButton.TabIndex = 12;
+            this.realtimeUpdatesButton.Text = "Start Realtime Updates";
+            this.realtimeUpdatesButton.UseVisualStyleBackColor = false;
+            this.realtimeUpdatesButton.Click += new System.EventHandler(this.startRealtimeUpdates);
             // 
             // Form1
             // 
@@ -326,6 +338,7 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.ComboBox seriesTypeCombo;
+        private System.Windows.Forms.Button realtimeUpdatesButton;
     }
 }
 
