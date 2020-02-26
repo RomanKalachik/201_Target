@@ -30,7 +30,7 @@ namespace DataGenerator {
         public static void UpdateSource(ObservableCollection<DataItem> chartSource) {
             float lastArgument = chartSource.Last().Argument;
             chartSource.RemoveAt(0);
-            AddOneRecord(chartSource, (int)lastArgument);
+            AddOneRecord(chartSource, (int)lastArgument + 1);
         }
     }
 }
