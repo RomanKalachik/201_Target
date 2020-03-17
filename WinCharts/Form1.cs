@@ -27,6 +27,9 @@ namespace WinCharts {
         void bindDataWin(object sender, EventArgs e) {
             series1.DataSource = chartSource;
             series1.ValueDataMembers.AddRange(new string[] { "Value" });
+            var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
+            d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
+            d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
             series1.ArgumentDataMember = "Argument";
             LogMemConsumption();
         }
