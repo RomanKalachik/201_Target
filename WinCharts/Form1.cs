@@ -29,10 +29,8 @@ namespace WinCharts {
             series.AllowResample = true;
             series.BindToData(chartSource, "Argument", "Value");
             series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
-          
-            //series1.DataSource = chartSource;
-            //series1.ValueDataMembers.AddRange(new string[] { "Value" });
-            //series1.View = new DevExpress.XtraCharts.LineSeriesView();
+            series.SetFinancialDataMembers("Argument", "Value", "Value2", "Value3", "Value4");
+
             var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
             d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
             d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
@@ -42,8 +40,12 @@ namespace WinCharts {
 
 
         void bindDataWpf(object sender, EventArgs e) {
-            window = new MainWindow();
-           var diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
+            if (window == null || !window.IsVisible)
+                window = new MainWindow();
+            DevExpress.Xpf.Charts.XYDiagram2D diagram;
+            diagram = window.Chart.Diagram as DevExpress.Xpf.Charts.XYDiagram2D;
+            if (diagram == null)
+                diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
@@ -54,10 +56,14 @@ namespace WinCharts {
             diagram.Series.Add(series);
 
             series.DataSource = chartSource;
-            //window.Chart.DataSource = chartSource
             series.ArgumentDataMember = "Argument";
             series.ValueDataMember = "Value";
-
+            var finSeries = series as DevExpress.Xpf.Charts.FinancialSeries2D;
+            if (finSeries != null ) {
+                finSeries.OpenValueDataMember = "Value2";
+                finSeries.CloseValueDataMember = "Value3";
+                finSeries.LowValueDataMember = "Value4";
+            }
             window.Show();
 
             LogMemConsumption();
@@ -87,7 +93,9 @@ namespace WinCharts {
             "StepAreaSeriesView",
             "StackedStepAreaSeriesView",
             "StackedAreaSeriesView",
-            "StackedBarSeriesView"
+            "StackedBarSeriesView",
+            "CandleStickSeriesView",
+            "StockSeriesView"
         };
         void Form1_Load(object sender, EventArgs e) {
             seriesTypeCombo.Items.AddRange(new object[] {
@@ -100,6 +108,8 @@ namespace WinCharts {
                                                "AreaStepStackedSeries2D",
                                                "AreaStackedSeries2D",
                                                "BarStackedSeries2D",
+                                               "CandleStickSeries2D",
+                                               "StockSeries2D",
             });
             seriesTypeCombo.SelectedIndex = 0;
 
@@ -164,6 +174,26 @@ namespace WinCharts {
                 }
             };
             timer.Start();
+        }
+
+        private void x10WinClick(object sender, EventArgs e)
+        {
+            if (chartSource == null) return;
+            for (int i = 0; i < 10; i++)
+            {
+                chartSource = Generator.Generate(chartSource.Count);
+                bindDataWin(null, null);
+            }
+        }
+
+        private void x10WpfClick(object sender, EventArgs e)
+        {
+            if (chartSource == null) return;
+            for (int i = 0; i < 10; i++)
+            {
+                chartSource = Generator.Generate(chartSource.Count);
+                bindDataWpf(null, null);
+            }
         }
     }
 }
