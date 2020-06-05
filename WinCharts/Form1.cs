@@ -1,5 +1,5 @@
 ﻿using DataGenerator;
-using DevExpress.Xpf.Charts;
+using DevExpress.XtraCharts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,7 +15,6 @@ namespace WinCharts {
 
         public Form1() {
             InitializeComponent();
-            Load += Form1_Load;
         }
 
         void AddMessageToLog(string message) {
@@ -25,8 +24,15 @@ namespace WinCharts {
         }
 
         void bindDataWin(object sender, EventArgs e) {
-            series1.DataSource = chartSource;
-            series1.ValueDataMembers.AddRange(new string[] { "Value" });
+            var series = new DevExpress.XtraCharts.Series();
+            chartControl1.Series.Add(series);
+            series.AllowResample = true;
+            series.BindToData(chartSource, "Argument", "Value");
+            series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
+          
+            //series1.DataSource = chartSource;
+            //series1.ValueDataMembers.AddRange(new string[] { "Value" });
+            //series1.View = new DevExpress.XtraCharts.LineSeriesView();
             var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
             d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
             d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
@@ -37,13 +43,13 @@ namespace WinCharts {
 
         void bindDataWpf(object sender, EventArgs e) {
             window = new MainWindow();
-            XYDiagram2D diagram = new XYDiagram2D();
+           var diagram = new DevExpress.Xpf.Charts.XYDiagram2D();
             window.Chart.Diagram = diagram;
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
-            diagram.NavigationOptions = new NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
-            XYSeries2D series = (XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.1"));
-
+            diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
+            var series = (DevExpress.Xpf.Charts.XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.2"));
+            series.AllowResample = true;
             window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
 
@@ -69,11 +75,23 @@ namespace WinCharts {
 
         void clearDataClick(object sender, EventArgs e) {
             chartSource = null;
+            chartControl1.Series.Clear();
             LogMemConsumption();
         }
-
+        string[] viewTypeNames = new string[] {
+            "LineSeriesView",
+            "SplineSeriesView",
+            "SplineAreaSeriesView",
+            "StackedSplineAreaSeriesView",
+            "AreaSeriesView",
+            "StepAreaSeriesView",
+            "StackedStepAreaSeriesView",
+            "StackedAreaSeriesView",
+            "StackedBarSeriesView"
+        };
         void Form1_Load(object sender, EventArgs e) {
-            seriesTypeCombo.Items.AddRange(new object[] {"LineSeries2D",
+            seriesTypeCombo.Items.AddRange(new object[] {
+                                               "LineSeries2D",
                                                "SplineSeries2D",
                                                "SplineAreaSeries2D",
                                                "SplineAreaStackedSeries2D",
@@ -140,6 +158,7 @@ namespace WinCharts {
             timer.Interval = 300;
             timer.Tick += (s, ee) =>
             {
+                if (chartSource == null) return;
                 for (int i = 0; i < 1000; i++) {
                     Generator.UpdateSource(chartSource);
                 }
