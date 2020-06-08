@@ -95,7 +95,8 @@ namespace WinCharts {
             "StackedAreaSeriesView",
             "StackedBarSeriesView",
             "CandleStickSeriesView",
-            "StockSeriesView"
+            "StockSeriesView",
+            "PointSeriesView"
         };
         void Form1_Load(object sender, EventArgs e) {
             seriesTypeCombo.Items.AddRange(new object[] {
@@ -110,6 +111,7 @@ namespace WinCharts {
                                                "BarStackedSeries2D",
                                                "CandleStickSeries2D",
                                                "StockSeries2D",
+                                               "MarkerSeries2D"
             });
             seriesTypeCombo.SelectedIndex = 0;
 

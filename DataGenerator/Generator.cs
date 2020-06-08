@@ -6,9 +6,9 @@ namespace DataGenerator {
     public class DataItem {
         public float Argument { get; set; }
         public float Value { get; set; }
-        public float Value2 { get { return Value + 50; } }
-        public float Value3 { get { return Value + 10; } }
-        public float Value4 { get { return Value + 30; } }
+        public float Value2 { get { return Value + 1; } }
+        public float Value3 { get { return Value + 0.5f; } }
+        public float Value4 { get { return Value -1; } }
     }
     public class Generator {
         static int offsetCounter = 0;
