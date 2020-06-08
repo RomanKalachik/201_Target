@@ -99,6 +99,12 @@ namespace WinCharts {
             "PointSeriesView"
         };
         void Form1_Load(object sender, EventArgs e) {
+            dataTypeCombo.Items.AddRange(new object[] {
+                "Generate",
+               "Generate2DPoins",
+                "Generate2DPoins_Circle"
+            });
+            dataTypeCombo.SelectedIndex = 0;
             seriesTypeCombo.Items.AddRange(new object[] {
                                                "LineSeries2D",
                                                "SplineSeries2D",
@@ -111,7 +117,7 @@ namespace WinCharts {
                                                "BarStackedSeries2D",
                                                "CandleStickSeries2D",
                                                "StockSeries2D",
-                                               "MarkerSeries2D"
+                                               "PointSeries2D"
             });
             seriesTypeCombo.SelectedIndex = 0;
 
@@ -119,14 +125,19 @@ namespace WinCharts {
             series1 = chartControl1.Chart.Series[0];
         }
 
-        void generate_20K(object sender, EventArgs e) {
-            chartSource = Generator.Generate(20000);
+        void generate_20K(object sender, EventArgs e)
+        {
+            GenerateCore(20000);
+        }
+
+        private void GenerateCore(long count)
+        {
+            chartSource = (ObservableCollection<DataItem>)typeof(Generator).InvokeMember((string)dataTypeCombo.SelectedItem, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.InvokeMethod, null, null, new object[] { count });
             LogMemConsumption();
         }
 
         void generateDataClick(object sender, EventArgs e) {
-            chartSource = Generator.Generate(1000000);
-            LogMemConsumption();
+            GenerateCore(1000000);
         }
 
         void LogMemConsumption() {
@@ -149,19 +160,15 @@ namespace WinCharts {
         }
 
         void generate10Points(object sender, EventArgs e) {
-            chartSource = Generator.Generate(10);
-            LogMemConsumption();
-
+            GenerateCore(10);
         }
 
         void generate20MPoints(object sender, EventArgs e) {
-            chartSource = Generator.Generate(20 * 1000 * 1000);
-            LogMemConsumption();
+            GenerateCore(20 * 1000 * 1000);
         }
 
         void button10_Click(object sender, EventArgs e) {
-            chartSource = Generator.Generate(120 * 1000 * 1000);
-            LogMemConsumption();
+            GenerateCore(120 * 1000 * 1000);
         }
         Timer timer;
 
