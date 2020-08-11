@@ -29,7 +29,7 @@ namespace WinCharts {
             series.AllowResample = true;
             series.BindToData(chartSource, "Argument", "Value");
             series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
-            series.SetFinancialDataMembers("Argument", "Value", "Value2", "Value3", "Value4");
+            series.SetFinancialDataMembers("Argument", "Value4", "Value2", "Value", "Value3");
 
             var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
             d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
