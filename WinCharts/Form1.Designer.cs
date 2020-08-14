@@ -34,6 +34,7 @@
             DevExpress.XtraCharts.LineSeriesView lineSeriesView1 = new DevExpress.XtraCharts.LineSeriesView();
             this.chartControl1 = new DevExpress.XtraCharts.ChartControl();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.dataTypeCombo = new System.Windows.Forms.ComboBox();
             this.button8 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -55,7 +56,6 @@
             this.textBox1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.flowLayoutPanel1item = new DevExpress.XtraLayout.LayoutControlItem();
             this.chartControl1item = new DevExpress.XtraLayout.LayoutControlItem();
-            this.dataTypeCombo = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.chartControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(xyDiagram1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(series1)).BeginInit();
@@ -109,6 +109,14 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(220, 325);
             this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // dataTypeCombo
+            // 
+            this.dataTypeCombo.FormattingEnabled = true;
+            this.dataTypeCombo.Location = new System.Drawing.Point(3, 3);
+            this.dataTypeCombo.Name = "dataTypeCombo";
+            this.dataTypeCombo.Size = new System.Drawing.Size(201, 21);
+            this.dataTypeCombo.TabIndex = 15;
             // 
             // button8
             // 
@@ -254,6 +262,7 @@
             this.seriesTypeCombo.Name = "seriesTypeCombo";
             this.seriesTypeCombo.Size = new System.Drawing.Size(178, 21);
             this.seriesTypeCombo.TabIndex = 11;
+            this.seriesTypeCombo.SelectedIndexChanged += new System.EventHandler(this.seriesTypeCombo_SelectedIndexChanged);
             // 
             // log
             // 
@@ -315,14 +324,6 @@
             this.chartControl1item.Size = new System.Drawing.Size(556, 329);
             this.chartControl1item.TextSize = new System.Drawing.Size(0, 0);
             this.chartControl1item.TextVisible = false;
-            // 
-            // dataType
-            // 
-            this.dataTypeCombo.FormattingEnabled = true;
-            this.dataTypeCombo.Location = new System.Drawing.Point(3, 3);
-            this.dataTypeCombo.Name = "dataType";
-            this.dataTypeCombo.Size = new System.Drawing.Size(201, 21);
-            this.dataTypeCombo.TabIndex = 15;
             // 
             // Form1
             // 

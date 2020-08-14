@@ -28,12 +28,15 @@ namespace WinCharts {
             chartControl1.Series.Add(series);
             series.AllowResample = true;
             series.BindToData(chartSource, "Argument", "Value");
-            series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
+            series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
+            //series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
             series.SetFinancialDataMembers("Argument", "Value4", "Value2", "Value", "Value3");
 
             var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
-            d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
-            d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
+            if(d2d != null) {
+                d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
+                d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
+            }
             series1.ArgumentDataMember = "Argument";
             LogMemConsumption();
         }
@@ -84,20 +87,37 @@ namespace WinCharts {
             chartControl1.Series.Clear();
             LogMemConsumption();
         }
-        string[] viewTypeNames = new string[] {
-            "LineSeriesView",
-            "SplineSeriesView",
-            "SplineAreaSeriesView",
-            "StackedSplineAreaSeriesView",
-            "AreaSeriesView",
-            "StepAreaSeriesView",
-            "StackedStepAreaSeriesView",
-            "StackedAreaSeriesView",
-            "StackedBarSeriesView",
-            "CandleStickSeriesView",
-            "StockSeriesView",
-            "PointSeriesView"
+        ViewType[] excludedViewTypes = new ViewType[] {
+            ViewType.BoxPlot,
+            ViewType.Bubble, //needs 2D resampling
+            ViewType.Point, //needs 2D resampling
+            ViewType.ScatterLine, //needs 2D resampling
+            ViewType.ScatterPolarLine, //needs 2D resampling
+            ViewType.ScatterRadarLine, //needs 2D resampling
+            ViewType.PolarPoint,
+            ViewType.RadarPoint,
+            ViewType.Pie,
+            ViewType.Doughnut,
+            ViewType.NestedDoughnut,
+            ViewType.Pie3D,
+            ViewType.Doughnut3D,
+            ViewType.Funnel,
+            ViewType.Funnel3D
         };
+        //string[] viewTypeNames = new string[] {
+        //    "LineSeriesView",
+        //    "SplineSeriesView",
+        //    "SplineAreaSeriesView",
+        //    "StackedSplineAreaSeriesView",
+        //    "AreaSeriesView",
+        //    "StepAreaSeriesView",
+        //    "StackedStepAreaSeriesView",
+        //    "StackedAreaSeriesView",
+        //    "StackedBarSeriesView",
+        //    "CandleStickSeriesView",
+        //    "StockSeriesView",
+        //    "PointSeriesView"
+        //};
         void Form1_Load(object sender, EventArgs e) {
             dataTypeCombo.Items.AddRange(new object[] {
                 "Generate",
@@ -105,20 +125,27 @@ namespace WinCharts {
                 "Generate2DPoins_Circle"
             });
             dataTypeCombo.SelectedIndex = 0;
-            seriesTypeCombo.Items.AddRange(new object[] {
-                                               "LineSeries2D",
-                                               "SplineSeries2D",
-                                               "SplineAreaSeries2D",
-                                               "SplineAreaStackedSeries2D",
-                                               "AreaSeries2D",
-                                               "AreaStepSeries2D",
-                                               "AreaStepStackedSeries2D",
-                                               "AreaStackedSeries2D",
-                                               "BarStackedSeries2D",
-                                               "CandleStickSeries2D",
-                                               "StockSeries2D",
-                                               "PointSeries2D"
-            });
+
+            foreach(ViewType viewType in Enum.GetValues(typeof(ViewType))) {
+                if(!excludedViewTypes.Contains(viewType)) {
+                    seriesTypeCombo.Items.Add(viewType);
+                }
+            }
+
+            //seriesTypeCombo.Items.AddRange(new object[] {
+            //                                   "LineSeries2D",
+            //                                   "SplineSeries2D",
+            //                                   "SplineAreaSeries2D",
+            //                                   "SplineAreaStackedSeries2D",
+            //                                   "AreaSeries2D",
+            //                                   "AreaStepSeries2D",
+            //                                   "AreaStepStackedSeries2D",
+            //                                   "AreaStackedSeries2D",
+            //                                   "BarStackedSeries2D",
+            //                                   "CandleStickSeries2D",
+            //                                   "StockSeries2D",
+            //                                   "PointSeries2D"
+            //});
             seriesTypeCombo.SelectedIndex = 0;
 
             LogMemConsumption();
@@ -203,6 +230,11 @@ namespace WinCharts {
                 chartSource = Generator.Generate(chartSource.Count);
                 bindDataWpf(null, null);
             }
+        }
+
+        void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
+            foreach(Series series in chartControl1.Series)
+                series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
         }
     }
 }

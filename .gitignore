@@ -50,3 +50,6 @@ AppPackages/
 /.vs/DataGenerator/v16/Server/sqlite3
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
+/.vs/DataGenerator/v15/Server/sqlite3/storage.ide
+/.vs/DataGenerator/v15/Server/sqlite3/storage.ide-shm
+/.vs/DataGenerator/v15/Server/sqlite3/storage.ide-wal
