@@ -44,6 +44,7 @@ namespace WinCharts {
             series.AllowResample = true;
             series.BindToData(chartSource, "Argument", "Value");
             series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
+            AllowInteractionsIn3D();
             series.SetFinancialDataMembers("Argument", "Value4", "Value2", "Value", "Value3");
 
             XYDiagram2D d2d = chartControl1.Diagram as XYDiagram2D;
@@ -144,7 +145,18 @@ namespace WinCharts {
         void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
             foreach (Series series in chartControl1.Series)
                 series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
+            AllowInteractionsIn3D();
         }
+
+        private void AllowInteractionsIn3D() {
+            var s3d = chartControl1.Diagram as Diagram3D;
+            if (s3d != null) {
+                s3d.RuntimeRotation = true;
+                s3d.RuntimeScrolling = true;
+                s3d.RuntimeZooming = true;
+            }
+        }
+
         void startRealtimeUpdates(object sender, EventArgs e) {
             timer = new Timer();
             timer.Interval = 300;
