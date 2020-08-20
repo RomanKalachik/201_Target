@@ -1,47 +1,59 @@
 ﻿using DataGenerator;
 using DevExpress.XtraCharts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 using WPFChart;
-
 namespace WinCharts {
     public partial class Form1 : Form {
         ObservableCollection<DataItem> chartSource;
+        ViewType[] excludedViewTypes = new ViewType[] {
+            ViewType.BoxPlot,
+            ViewType.Bubble,
+            ViewType.Point,
+            ViewType.ScatterLine,
+            ViewType.ScatterPolarLine,
+            ViewType.ScatterRadarLine,
+            ViewType.PolarPoint,
+            ViewType.RadarPoint,
+            ViewType.Pie,
+            ViewType.Doughnut,
+            ViewType.NestedDoughnut,
+            ViewType.Pie3D,
+            ViewType.Doughnut3D,
+            ViewType.Funnel,
+            ViewType.Funnel3D
+        };
         long prevAvailable = 0;
+        Series series;
+        Timer timer;
         MainWindow window;
-
         public Form1() {
             InitializeComponent();
         }
-
         void AddMessageToLog(string message) {
             log.Text += message;
             log.SelectionStart = log.Text.Length;
             log.ScrollToCaret();
         }
-
         void bindDataWin(object sender, EventArgs e) {
-            var series = new DevExpress.XtraCharts.Series();
+            series = new Series();
             chartControl1.Series.Add(series);
             series.AllowResample = true;
             series.BindToData(chartSource, "Argument", "Value");
             series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
-            //series.View = (XYDiagramSeriesViewBase)Activator.CreateInstance(Type.GetType("DevExpress.XtraCharts." + viewTypeNames[seriesTypeCombo.SelectedIndex] + ", DevExpress.XtraCharts.v20.2"));
             series.SetFinancialDataMembers("Argument", "Value4", "Value2", "Value", "Value3");
 
-            var d2d = chartControl1.Diagram as DevExpress.XtraCharts.XYDiagram2D;
-            if(d2d != null) {
+            XYDiagram2D d2d = chartControl1.Diagram as XYDiagram2D;
+            if (d2d != null) {
                 d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
                 d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
             }
-            series1.ArgumentDataMember = "Argument";
+            series.ArgumentDataMember = "Argument";
             LogMemConsumption();
         }
-
-
         void bindDataWpf(object sender, EventArgs e) {
             if (window == null || !window.IsVisible)
                 window = new MainWindow();
@@ -53,7 +65,7 @@ namespace WinCharts {
             diagram.EnableAxisXNavigation = true;
             diagram.EnableAxisYNavigation = true;
             diagram.NavigationOptions = new DevExpress.Xpf.Charts.NavigationOptions() { AxisXMaxZoomPercent = 100000000, AxisYMaxZoomPercent = 100000000 };
-            var series = (DevExpress.Xpf.Charts.XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.2"));
+            DevExpress.Xpf.Charts.XYSeries2D series = (DevExpress.Xpf.Charts.XYSeries2D)Activator.CreateInstance(Type.GetType("DevExpress.Xpf.Charts." + seriesTypeCombo.SelectedItem + ", DevExpress.Xpf.Charts.v20.2"));
             series.AllowResample = true;
             window.Chart.CrosshairEnabled = true;
             diagram.Series.Add(series);
@@ -61,8 +73,8 @@ namespace WinCharts {
             series.DataSource = chartSource;
             series.ArgumentDataMember = "Argument";
             series.ValueDataMember = "Value";
-            var finSeries = series as DevExpress.Xpf.Charts.FinancialSeries2D;
-            if (finSeries != null ) {
+            DevExpress.Xpf.Charts.FinancialSeries2D finSeries = series as DevExpress.Xpf.Charts.FinancialSeries2D;
+            if (finSeries != null) {
                 finSeries.OpenValueDataMember = "Value2";
                 finSeries.CloseValueDataMember = "Value3";
                 finSeries.LowValueDataMember = "Value4";
@@ -71,7 +83,9 @@ namespace WinCharts {
 
             LogMemConsumption();
         }
-
+        void button10_Click(object sender, EventArgs e) {
+            GenerateCore(120 * 1000 * 1000);
+        }
         static String BytesToString(long byteCount) {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
             if (byteCount == 0)
@@ -81,43 +95,11 @@ namespace WinCharts {
             double num = Math.Round(bytes / Math.Pow(1024, place), 1);
             return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
-
         void clearDataClick(object sender, EventArgs e) {
             chartSource = null;
             chartControl1.Series.Clear();
             LogMemConsumption();
         }
-        ViewType[] excludedViewTypes = new ViewType[] {
-            ViewType.BoxPlot,
-            ViewType.Bubble, //needs 2D resampling
-            ViewType.Point, //needs 2D resampling
-            ViewType.ScatterLine, //needs 2D resampling
-            ViewType.ScatterPolarLine, //needs 2D resampling
-            ViewType.ScatterRadarLine, //needs 2D resampling
-            ViewType.PolarPoint,
-            ViewType.RadarPoint,
-            ViewType.Pie,
-            ViewType.Doughnut,
-            ViewType.NestedDoughnut,
-            ViewType.Pie3D,
-            ViewType.Doughnut3D,
-            ViewType.Funnel,
-            ViewType.Funnel3D
-        };
-        //string[] viewTypeNames = new string[] {
-        //    "LineSeriesView",
-        //    "SplineSeriesView",
-        //    "SplineAreaSeriesView",
-        //    "StackedSplineAreaSeriesView",
-        //    "AreaSeriesView",
-        //    "StepAreaSeriesView",
-        //    "StackedStepAreaSeriesView",
-        //    "StackedAreaSeriesView",
-        //    "StackedBarSeriesView",
-        //    "CandleStickSeriesView",
-        //    "StockSeriesView",
-        //    "PointSeriesView"
-        //};
         void Form1_Load(object sender, EventArgs e) {
             dataTypeCombo.Items.AddRange(new object[] {
                 "Generate",
@@ -126,47 +108,32 @@ namespace WinCharts {
             });
             dataTypeCombo.SelectedIndex = 0;
 
-            foreach(ViewType viewType in Enum.GetValues(typeof(ViewType))) {
-                if(!excludedViewTypes.Contains(viewType)) {
+            foreach (ViewType viewType in Enum.GetValues(typeof(ViewType))) {
+                if (!excludedViewTypes.Contains(viewType)) {
                     seriesTypeCombo.Items.Add(viewType);
                 }
             }
 
-            //seriesTypeCombo.Items.AddRange(new object[] {
-            //                                   "LineSeries2D",
-            //                                   "SplineSeries2D",
-            //                                   "SplineAreaSeries2D",
-            //                                   "SplineAreaStackedSeries2D",
-            //                                   "AreaSeries2D",
-            //                                   "AreaStepSeries2D",
-            //                                   "AreaStepStackedSeries2D",
-            //                                   "AreaStackedSeries2D",
-            //                                   "BarStackedSeries2D",
-            //                                   "CandleStickSeries2D",
-            //                                   "StockSeries2D",
-            //                                   "PointSeries2D"
-            //});
             seriesTypeCombo.SelectedIndex = 0;
 
             LogMemConsumption();
-            series1 = chartControl1.Chart.Series[0];
         }
-
-        void generate_20K(object sender, EventArgs e)
-        {
+        void generate_20K(object sender, EventArgs e) {
             GenerateCore(20000);
         }
-
-        private void GenerateCore(long count)
-        {
-            chartSource = (ObservableCollection<DataItem>)typeof(Generator).InvokeMember((string)dataTypeCombo.SelectedItem, System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.InvokeMethod, null, null, new object[] { count });
+        void generate10Points(object sender, EventArgs e) {
+            GenerateCore(10);
+        }
+        void generate20MPoints(object sender, EventArgs e) {
+            GenerateCore(20 * 1000 * 1000);
+        }
+        void GenerateCore(long count) {
+            chartSource = (ObservableCollection<DataItem>)typeof(Generator).InvokeMember((string)dataTypeCombo.SelectedItem, BindingFlags.Static | BindingFlags.Public | BindingFlags.InvokeMethod, null, null, new object[] { count });
             LogMemConsumption();
         }
-
         void generateDataClick(object sender, EventArgs e) {
             GenerateCore(1000000);
         }
-
         void LogMemConsumption() {
             long available = GC.GetTotalMemory(true);
             if (prevAvailable > 0)
@@ -174,36 +141,14 @@ namespace WinCharts {
                                               BytesToString(prevAvailable - available)));
             prevAvailable = available;
         }
-
-        void unBindDataClick(object sender, EventArgs e) {
-            series1.DataSource = null;
-            LogMemConsumption();
+        void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
+            foreach (Series series in chartControl1.Series)
+                series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
         }
-
-        void UnBindDataWpf(object sender, EventArgs e) {
-            window?.Close();
-            window = null;
-            LogMemConsumption();
-        }
-
-        void generate10Points(object sender, EventArgs e) {
-            GenerateCore(10);
-        }
-
-        void generate20MPoints(object sender, EventArgs e) {
-            GenerateCore(20 * 1000 * 1000);
-        }
-
-        void button10_Click(object sender, EventArgs e) {
-            GenerateCore(120 * 1000 * 1000);
-        }
-        Timer timer;
-
         void startRealtimeUpdates(object sender, EventArgs e) {
             timer = new Timer();
             timer.Interval = 300;
-            timer.Tick += (s, ee) =>
-            {
+            timer.Tick += (s, ee) => {
                 if (chartSource == null) return;
                 for (int i = 0; i < 1000; i++) {
                     Generator.UpdateSource(chartSource);
@@ -211,30 +156,28 @@ namespace WinCharts {
             };
             timer.Start();
         }
-
-        private void x10WinClick(object sender, EventArgs e)
-        {
+        void unBindDataClick(object sender, EventArgs e) {
+            series.DataSource = null;
+            LogMemConsumption();
+        }
+        void UnBindDataWpf(object sender, EventArgs e) {
+            window?.Close();
+            window = null;
+            LogMemConsumption();
+        }
+        void x10WinClick(object sender, EventArgs e) {
             if (chartSource == null) return;
-            for (int i = 0; i < 10; i++)
-            {
+            for (int i = 0; i < 10; i++) {
                 chartSource = Generator.Generate(chartSource.Count);
                 bindDataWin(null, null);
             }
         }
-
-        private void x10WpfClick(object sender, EventArgs e)
-        {
+        void x10WpfClick(object sender, EventArgs e) {
             if (chartSource == null) return;
-            for (int i = 0; i < 10; i++)
-            {
+            for (int i = 0; i < 10; i++) {
                 chartSource = Generator.Generate(chartSource.Count);
                 bindDataWpf(null, null);
             }
-        }
-
-        void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
-            foreach(Series series in chartControl1.Series)
-                series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
         }
     }
 }
