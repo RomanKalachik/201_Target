@@ -37,7 +37,22 @@ namespace WinCharts {
                 d2d.ZoomingOptions.AxisXMaxZoomPercent = 100000000;
                 d2d.ZoomingOptions.AxisYMaxZoomPercent = 100000000;
             }
-            series1.ArgumentDataMember = "Argument";
+
+            var d3d = chartControl1.Diagram as DevExpress.XtraCharts.Diagram3D;
+            if(d3d != null) {
+                d3d.RuntimeRotation = true;
+                d3d.RuntimeScrolling = true;
+                d3d.RuntimeZooming = true;
+            }
+
+            Bar3DSeriesView view = series.View as Bar3DSeriesView;
+            if(view != null) {
+                view.BarDepthAuto = false;
+                view.BarDepth = 10000;
+                view.BarWidth = 10000;
+            }
+
+            //series1.ArgumentDataMember = "Argument";
             LogMemConsumption();
         }
 
@@ -233,8 +248,8 @@ namespace WinCharts {
         }
 
         void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
-            foreach(Series series in chartControl1.Series)
-                series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
+            chartControl1.Series.Clear();
+            bindDataWin(sender, e);
         }
     }
 }
