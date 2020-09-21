@@ -206,7 +206,6 @@ namespace WinCharts {
                 bindDataWpf(null, null);
             }
         }
-            chartControl1.Series.Clear();
-            bindDataWin(sender, e);
+       
     }
 }
