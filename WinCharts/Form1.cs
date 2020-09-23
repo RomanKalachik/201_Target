@@ -158,6 +158,7 @@ namespace WinCharts {
             prevAvailable = available;
         }
         void seriesTypeCombo_SelectedIndexChanged(object sender, EventArgs e) {
+            (chartControl1.Diagram as XYDiagram)?.ResetZoom();
             foreach (Series series in chartControl1.Series)
                 series.ChangeView((ViewType)seriesTypeCombo.SelectedItem);
             AllowInteractionsIn3D();
